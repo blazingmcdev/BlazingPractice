@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BlazingPractice Season 3 — Shared PvP World Setup</title>
+<style>
+:root{color-scheme:dark;--bg:#10151d;--panel:#182230;--line:#2c3b4d;--text:#eaf1f8;--muted:#aab9c9;--accent:#63d5b4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,sans-serif}
+main{max-width:980px;margin:auto;padding:32px 20px 64px}h1,h2,h3{line-height:1.25}h1{font-size:2rem}h2{margin-top:2rem;color:var(--accent)}h3{margin-top:1.4rem;color:#b7e8dc}p,li{color:var(--muted)}a{color:var(--accent)}code,pre{background:#0b1017;border:1px solid var(--line);border-radius:7px}code{padding:2px 5px;color:#fff}pre{padding:14px;overflow:auto;color:#e9f7ff}pre code{border:0;padding:0}table{width:100%;border-collapse:collapse;background:var(--panel);display:block;overflow-x:auto}td,th{padding:10px;border:1px solid var(--line);text-align:left;min-width:130px}th{color:var(--accent)}blockquote{padding:12px 16px;border-left:3px solid var(--accent);background:var(--panel)}
+</style></head><body>
+<p><strong>Updated selector:</strong> In the Lobby, right-click the Wooden Axe (Server Selector) to open the four-player-head GUI for Survival, Practice &amp; FFA, SilixCloud Hosting and Discord. Optional wooden-block trigger: <code>/bp selector block set</code>. See the Markdown command guide for current details.</p><main><h1>BlazingPractice Season 3 — World Setup and Command Guide</h1>
+<p><strong>Source milestone:</strong> <code>0.10.5-dev</code><br />
+<strong>Reference plugin:</strong> ZonePracticePro <code>8.1.0</code><br />
+<strong>Target:</strong> Paper <code>1.21.11</code>, Java <code>25</code></p>
+<p>This is a development-source build. It has not yet been compiled against Paper or tested on a live server. Command roots retained from ZonePracticePro are not automatically behavior-compatible; see <code>COMMAND-COMPATIBILITY.md</code>.</p>
+<h2>A. Recommended world layout: one shared PvP world</h2>
+<p>Use one Lobby world, one shared PvP world for both Practice and FFA, and your existing Survival world(s). Do <strong>not</strong> create separate Practice and FFA worlds for this setup.</p>
+<table>
+<thead>
+<tr>
+  <th>Role</th>
+  <th>Example world</th>
+  <th>What happens there</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Lobby</td>
+  <td><code>blazinglobby</code></td>
+  <td>Existing four NPCs and mode selection; no damage</td>
+</tr>
+<tr>
+  <td>Shared PvP</td>
+  <td><code>pvp</code> (or your own name)</td>
+  <td>Practice queues/duel arenas and FFA share this world, with separate spawn points and player mode state</td>
+</tr>
+<tr>
+  <td>Survival</td>
+  <td><code>world</code> plus your SMP nether/end worlds</td>
+  <td>Normal survival gameplay and inventory; no BlazingPractice hotbar items</td>
+</tr>
+</tbody>
+</table>
+<p>You already created your NPCs and links, so do not recreate them. Keep your configured lobby world as it is. You only need to assign the shared PvP world and set its two mode spawns.</p>
+<h2>B. Configure the shared PvP world</h2>
+<p>Teleport to the one world you want to use for both Practice and FFA. Replace <code>pvp</code> with your actual Multiverse world name in the teleport command:</p>
+<pre><code class="language-text">/mv tp pvp
+/bp world set pvp
+</code></pre>
+<p><code>/bp world set pvp</code> maps both the Practice role and FFA role to this exact world. It saves your current location as the initial Practice spawn. Confirm it:</p>
+<pre><code class="language-text">/bp world status
+</code></pre>
+<p>The <code>pvp</code>, <code>practice</code>, and <code>ffa</code> entries should all show the same world name.</p>
+<p>Move to the FFA spawn point somewhere else in the <strong>same world</strong> and save it:</p>
+<pre><code class="language-text">/ffa setspawn
+</code></pre>
+<p>To move the Practice spawn, stand at its position in the same world:</p>
+<pre><code class="language-text">/bp practice setspawn
+</code></pre>
+<p>Do not use <code>/bp world set practice</code> and <code>/bp world set ffa</code> for this layout. Use <code>/bp world set pvp</code> once; the two other commands above only set separate locations inside it.</p>
+<p>Your existing <code>/bp world set lobby</code> and <code>/blazingpractice lobby set</code> settings are separate and do not need to be changed. Your NPCs, Discord link, and <code>https://silixcloud.com</code> Hosting link are left untouched.</p>
+<h2>C. Four lobby NPCs</h2>
+<p>Stand at each desired NPC position in <code>blazinglobby</code> and run one command per NPC:</p>
+<pre><code class="language-text">/bp npc create survival
+/bp npc create practice
+/bp npc create discord
+/bp npc create hosting
+</code></pre>
+<p>The NPCs are persistent, invulnerable, non-moving Villager entities with named click actions:</p>
+<table>
+<thead>
+<tr>
+  <th>NPC ID</th>
+  <th>Display name</th>
+  <th>Click action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>survival</code></td>
+  <td>SURVIVAL</td>
+  <td>Teleports to the first loaded configured Survival world spawn</td>
+</tr>
+<tr>
+  <td><code>practice</code></td>
+  <td>PRACTICE &amp; FFA</td>
+  <td>Opens the Practice/FFA mode selector</td>
+</tr>
+<tr>
+  <td><code>discord</code></td>
+  <td>JOIN DISCORD</td>
+  <td>Sends a clickable Discord invite link</td>
+</tr>
+<tr>
+  <td><code>hosting</code></td>
+  <td>OUR HOSTING</td>
+  <td>Sends a clickable hosting link; default is <code>https://silixcloud.com</code></td>
+</tr>
+</tbody>
+</table>
+<p>Set your real Discord invite link:</p>
+<pre><code class="language-text">/bp npc url discord https://discord.gg/YOUR_INVITE
+</code></pre>
+<p>The hosting URL is already set to <code>https://silixcloud.com</code>, but can be changed with:</p>
+<pre><code class="language-text">/bp npc url hosting https://silixcloud.com
+</code></pre>
+<p>Manage placed NPCs:</p>
+<pre><code class="language-text">/bp npc list
+/bp npc remove survival
+/bp npc remove practice
+/bp npc remove discord
+/bp npc remove hosting
+</code></pre>
+<p>NPC creation stores its world and position in <code>plugins/BlazingPractice/config.yml</code>. The current built-in NPCs are Villager-style NPCs, not player-skin NPCs; Citizens integration/player skins are not part of this milestone.</p>
+<h2>D. Player experience and protection in the shared PvP world</h2>
+<h3>Practice mode</h3>
+<ul>
+<li>A player entering the shared PvP world is protected by default.</li>
+<li>The Practice sword opens Ranked and Unranked queue controls.</li>
+<li>Players stay protected while selecting and waiting in a queue.</li>
+<li>Protection is released when a duel starts and restored when the player returns to a safe area.</li>
+<li>Practice queue and duel arenas must use the shared PvP world.</li>
+</ul>
+<h3>FFA mode</h3>
+<ul>
+<li>Joining FFA marks only that player as an FFA participant and teleports them to the FFA spawn <strong>inside the same world</strong>.</li>
+<li>The FFA participant receives the Leave FFA barrier; <code>/ffa leave</code> also works and returns them to their previous location.</li>
+<li>FFA participants can damage other FFA participants. They cannot damage Practice staging players or duel participants, and those players cannot damage FFA participants.</li>
+<li>FFA deaths respawn at the saved FFA spawn. By default, inventory is kept on death (<code>ffa.keep-inventory-on-death: true</code>).</li>
+<li>Being physically inside the shared PvP world does not automatically put someone into FFA mode.</li>
+</ul>
+<h3>Survival and Lobby</h3>
+<ul>
+<li>Survival is not the PvP world and receives no BlazingPractice hotbar items or FFA behavior.</li>
+<li>The Lobby remains a separate, protected world. Your existing NPCs and external links are not modified by these world-role commands.</li>
+</ul>
+<h2>E. Inventory separation and Multiverse</h2>
+<p>The shared-world layout uses one <code>pvp</code> inventory profile for both modes, with separate <code>lobby</code> and <code>survival</code> profiles. It does not swap Practice and FFA inventories based on a player's mode. When <strong>Multiverse-Inventories</strong> is installed, BlazingPractice disables its internal swapping backend to avoid conflicts; configure groups <code>survival</code>, <code>lobby</code>, and <code>pvp</code> there. Without Multiverse-Inventories, the SQLite fallback separates those three world profiles.</p>
+<p>Back up player data and Multiverse-Inventories data before testing. Runtime compatibility has not yet been tested on your server.</p>
+<h2>F. Practice arenas and matchmaking</h2>
+<p>Create a WorldGuard region inside the shared PvP world, then register it for its dedicated ladder. Both player spawns must be inside the region:</p>
+<pre><code class="language-text">/mv tp pvp
+/rg define sword_01
+/blazingpractice:arena create sword_01 sword sword_01
+/blazingpractice:arena setspawn1 sword_01
+/blazingpractice:arena setspawn2 sword_01
+/blazingpractice:arena enable sword_01
+/blazingpractice:arena list
+</code></pre>
+<p>See <code>docs/DEDICATED-DUEL-ARENAS.md</code> for the full command list and per-ladder pool limits.</p>
+<p>Players must not be active FFA participants to join a Practice queue or start a private duel. The queues use the Practice mode of the shared PvP world.</p>
+<p>Player commands:</p>
+<pre><code class="language-text">/practice
+/practice menu
+/practice ranked
+/practice unranked
+/ranked
+/unranked
+/queue ranked
+/queue unranked
+/queue leave
+/queue list
+/duel &lt;online-player&gt; [ladder]
+/accept [challenger]
+</code></pre>
+<h2>G. FFA and lobby navigation commands</h2>
+<pre><code class="language-text">/ffa join
+/ffa leave
+/ffa status
+/ffa setspawn
+/blazingpractice lobby
+/blazingpractice lobby set
+/bp world status
+/bp practice join
+/bp practice setspawn
+</code></pre>
+<h2>H. Other currently implemented commands</h2>
+<pre><code class="language-text">/party create
+/party invite &lt;player&gt;
+/party accept
+/party leave
+/party info
+/party chat &lt;message&gt;
+/statistics [online-player]
+/bp help
+/bp about
+/bp status
+/bp diagnostics
+/bp updatecheck
+</code></pre>
+<p><code>/bp diagnostics</code> and <code>/bp updatecheck</code> require their respective <code>blazingpractice.admin.*</code> permissions. World and NPC administration requires operator status, <code>zpp.setup</code>, or the matching <code>blazingpractice.admin.worlds</code> / <code>blazingpractice.admin.npc</code> permission.</p>
+<h2>I. Arena/command parity is still in progress</h2>
+<p>The 26 ZonePracticePro root command labels and aliases remain declared. A number of their full original handlers are still pending, including ladder editing, staff mode, spectating, events, kit editor, cosmetics, tournaments, replay and complete statistics/history screens. The descriptor alone does not establish exact original command syntax.</p>
+<p>Build with Java 25 and Maven:</p>
+<pre><code class="language-text">mvn clean package
+</code></pre>
+<p>Expected file: <code>target/BlazingPractice.jar</code>. The current ZIP is a source project, not an installable server JAR. Do not use it on the live server until it has been compiled and tested on a disposable Paper 1.21.11 server.</p>
+</main><h2>Player-friendly help and TAB completion (0.10.5-dev)</h2><p>Use <code>/bp help</code>, <code>/bp help player</code>, <code>/bp help admin</code>, <code>/bp help &lt;command&gt;</code>, and <code>/bp help features</code>. Active commands provide contextual completion using visible online players, enabled ladders, arena IDs, and Practice WorldGuard regions. Compatibility-only roots are marked as incomplete. Yellow color is applied to chat help; the Minecraft client controls the TAB dropdown color.</p></body></html>

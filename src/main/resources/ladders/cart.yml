@@ -1,0 +1,9 @@
+name: Cart
+enabled: true
+type: BUILD
+icon: TNT_MINECART
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.

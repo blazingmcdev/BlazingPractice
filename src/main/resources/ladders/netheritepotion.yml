@@ -1,0 +1,9 @@
+name: NetheritePotion
+enabled: true
+type: BASIC
+icon: NETHERITE_SWORD
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.

@@ -1,0 +1,87 @@
+arena-settings:
+  # Both spawn points must be at least this far apart.
+  minimum-spawn-distance: 3.0
+
+arena-pools:
+  sword:
+    min-arenas: 5
+    max-arenas: 8
+  axe:
+    min-arenas: 5
+    max-arenas: 8
+  crystal:
+    min-arenas: 5
+    max-arenas: 8
+  mace:
+    min-arenas: 5
+    max-arenas: 8
+  netheritepotion:
+    min-arenas: 5
+    max-arenas: 8
+  diamondpotion:
+    min-arenas: 5
+    max-arenas: 8
+  boxing:
+    min-arenas: 5
+    max-arenas: 5
+  sumo:
+    min-arenas: 5
+    max-arenas: 5
+  builduhc:
+    min-arenas: 5
+    max-arenas: 5
+  gapple:
+    min-arenas: 5
+    max-arenas: 5
+  spearmace:
+    min-arenas: 5
+    max-arenas: 5
+  spearelytra:
+    min-arenas: 5
+    max-arenas: 5
+  archer:
+    min-arenas: 2
+    max-arenas: 3
+  battlerush:
+    min-arenas: 2
+    max-arenas: 3
+  bedwars:
+    min-arenas: 2
+    max-arenas: 3
+  bridges:
+    min-arenas: 2
+    max-arenas: 3
+  cart:
+    min-arenas: 2
+    max-arenas: 3
+  creeper:
+    min-arenas: 2
+    max-arenas: 3
+  fireball:
+    min-arenas: 2
+    max-arenas: 3
+  mlgrush:
+    min-arenas: 2
+    max-arenas: 3
+  pearlfight:
+    min-arenas: 2
+    max-arenas: 3
+  sg:
+    min-arenas: 2
+    max-arenas: 3
+  skywars:
+    min-arenas: 2
+    max-arenas: 3
+  soup:
+    min-arenas: 2
+    max-arenas: 3
+  spleef:
+    min-arenas: 2
+    max-arenas: 3
+  tntsumo:
+    min-arenas: 2
+    max-arenas: 3
+
+# Arena entries are created with /blazingpractice:arena create.
+# Busy state is runtime-only and is never stored here.
+arenas: {}

@@ -1,0 +1,91 @@
+# BlazingPractice Server Selector
+# Installed at: plugins/BlazingPractice/selector/selector.yml
+# Edit this file, then run: /bp selector reload
+#
+# Each entry under menu.buttons becomes one icon in the wooden-axe menu.
+# Add another button by copying one block and giving it a unique key + free slot.
+# Remove a button by deleting its whole block or setting enabled: false.
+#
+# Supported action types:
+#   console_command - run a configured console command; {player}, {uuid}, {world} are replaced.
+#   url             - send one clickable URL to the player.
+#   links           - send a message followed by multiple clickable links.
+#   message         - send a normal text message.
+#   practice_menu   - open the Practice/FFA mode selector (or return to lobby first).
+
+selector-item:
+  enabled: true
+  material: WOODEN_AXE
+  slot: 0
+  name: '&e&lSERVER SELECTOR'
+  lore:
+    - '&7Right-click to open the server menu'
+    - '&8BlazingPractice'
+
+menu:
+  enabled: true
+  title: '&8Choose a Server'
+  size: 27
+  buttons:
+    survival:
+      enabled: true
+      slot: 10
+      material: PLAYER_HEAD
+      skin-owner: '' # Optional Minecraft username for this head skin.
+      npc-name: 'Survival' # Reference to the NPC name in your supplied npcs.yml.
+      name: '&a&lSURVIVAL'
+      lore:
+        - '&7Join the Survival world'
+        - '&eClick to play'
+      action:
+        type: console_command
+        command: 'mv tp {player} w:world --unsafe'
+
+    practice:
+      enabled: true
+      slot: 12
+      material: PLAYER_HEAD
+      skin-owner: ''
+      npc-name: 'FFA' # The supplied NPC named FFA points to the shared Practice/PvP world.
+      name: '&b&lPRACTICE & FFA'
+      lore:
+        - '&7Enter the shared Practice + FFA world'
+        - '&7Choose Ranked, Unranked or FFA in-game'
+        - '&eClick to continue'
+      action:
+        type: console_command
+        command: 'mv tp {player} w:practice --unsafe'
+
+    hosting:
+      enabled: true
+      slot: 14
+      material: PLAYER_HEAD
+      skin-owner: ''
+      npc-name: 'SylixCloud'
+      name: '&d&lSYLIXCLOUD HOSTING'
+      lore:
+        - '&7Visit our hosting partner'
+        - '&eClick to view links'
+      action:
+        type: links
+        message: '&6HOSTING &8» &7Choose a link:'
+        links:
+          - label: 'Visit SylixCloud Website'
+            url: 'https://sylixcloud.com'
+          - label: 'Join SylixCloud Discord'
+            url: 'https://discord.gg/bSWnZ9ftmS'
+
+    discord:
+      enabled: true
+      slot: 16
+      material: PLAYER_HEAD
+      skin-owner: ''
+      npc-name: 'Discord'
+      name: '&9&lDISCORD SERVER'
+      lore:
+        - '&7Join our community'
+        - '&eClick to open the invite'
+      action:
+        type: url
+        message: 'Click here to visit Discord'
+        url: 'https://discord.gg'

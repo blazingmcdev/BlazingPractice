@@ -1,0 +1,481 @@
+name: BlazingPractice
+version: 0.10.5-dev
+main: net.blazingpractice.BlazingPractice
+api-version: '1.21'
+authors:
+- BlazingPractice Team
+description: Practice matchmaking, ladder selection and FFA in a shared PvP world.
+softdepend:
+- WorldEdit
+- WorldGuard
+- Multiverse-Core
+- Multiverse-Inventories
+- PlaceholderAPI
+- packetevents
+load: POSTWORLD
+commands:
+  bp:
+    description: BlazingPractice help, player tools and administration. Use /bp help for a command guide.
+    aliases:
+    - blazingpractice
+    - blazing
+    permission: blazingpractice.use
+  arena:
+    description: Manage dedicated duel arenas. Use /blazingpractice:arena to avoid command conflicts.
+    usage: /blazingpractice:arena <help|list|info|create|setspawn1|setspawn2|enable|disable|delete|reload>
+  ladder:
+    description: Browse enabled Practice ladders and manage ladder definitions.
+    usage: /ladder <list|info|create|clone|delete|set|enable|disable|reload>
+  setup:
+    description: Setup wizard compatibility command.
+  duel:
+    description: Challenge an online Practice player; TAB suggests players and duel ladders.
+    usage: /duel <online-player> [ladder]
+  accept:
+    description: Accept your pending duel invitation.
+    usage: /accept [challenger]
+  settings:
+    description: Player settings compatibility command.
+  practice:
+    aliases:
+    - prac
+    - zonepractice
+    - zoneprac
+    - zonep
+    description: Open Practice menus, Ranked/Unranked queues or return to the configured BlazingPractice lobby.
+    usage: /practice <menu|ranked|unranked|lobby|help>
+  staff:
+    aliases:
+    - staffmode
+    description: Staff mode compatibility command.
+  spectate:
+    aliases:
+    - spec
+    description: Spectate compatibility command.
+  party:
+    aliases:
+    - p
+    description: Create a party, invite online players and use party chat.
+    usage: /party <create|invite|accept|leave|info|chat|help>
+  matchinv:
+    description: Match inventory compatibility command.
+  event:
+    aliases:
+    - e
+    description: Event compatibility command.
+  statistics:
+    aliases:
+    - stat
+    - stats
+    description: View your ladder statistics or those of an online player.
+    usage: /statistics [online-player] [ladder]
+  preview:
+    description: Kit preview compatibility command.
+  divisions:
+    description: Division compatibility command.
+  unranked:
+    description: Open Unranked ladder selection or join a specific Unranked ladder.
+    usage: /unranked [ladder|menu|leave|help]
+  ranked:
+    description: Open Ranked ladder selection or join a specific Ranked ladder.
+    usage: /ranked [ladder|menu|leave|help]
+  queue:
+    aliases:
+    - que
+    description: 'Join or leave Ranked/Unranked queues and view queue counts. Alias: /que.'
+    usage: /queue <ranked|unranked> [ladder] | join <ranked|unranked> <ladder> | leave | list | help
+  editor:
+    aliases:
+    - kiteditor
+    description: Kit editor compatibility command.
+  ffa:
+    description: Join or leave Free-for-All and choose an enabled ladder.
+    usage: /ffa <join [ladder]|leave|status|setspawn|help>
+  copykit:
+    description: Copy kit compatibility command.
+  ignorequeue:
+    description: Ignore queue compatibility command.
+  cosmetics:
+    aliases:
+    - cosmetc
+    - csmetic
+    description: Cosmetics compatibility command.
+  customqueue:
+    aliases:
+    - cqueue
+    - customkitqueue
+    description: Custom queue compatibility command.
+  matchhistory:
+    aliases:
+    - mh
+    - matchhist
+    description: Match history compatibility command.
+  nick:
+    aliases:
+    - nickname
+    description: Nickname compatibility command.
+permissions:
+  blazingpractice.use:
+    description: Use BlazingPractice commands.
+    default: true
+  blazingpractice.admin.worlds:
+    description: Assign the Lobby, Practice, FFA and Survival world roles.
+    default: op
+  blazingpractice.admin.npc:
+    description: Create, move, remove and configure lobby NPCs.
+    default: op
+  blazingpractice.admin.arenas:
+    description: Create and manage dedicated WorldGuard duel arenas.
+    default: op
+  blazingpractice.admin.diagnostics:
+    description: View BlazingPractice diagnostics.
+    default: op
+  blazingpractice.admin.updates:
+    description: Receive update notifications and run update checks.
+    default: op
+  blazingpractice.admin:
+    description: Full BlazingPractice administration access.
+    default: op
+    children:
+      blazingpractice.admin.arenas: true
+      blazingpractice.admin.diagnostics: true
+      blazingpractice.admin.updates: true
+      blazingpractice.selector.admin: true
+      zpp.admin: true
+  blazingpractice.selector.use:
+    description: Use the lobby server selector item and menu.
+    default: true
+  blazingpractice.selector.admin:
+    description: Give and configure the server selector item and block.
+    default: op
+  zpp.admin:
+    default: op
+    children:
+      zpp.setup: true
+      zpp.staff: true
+      zpp.event.*: true
+      zpp.settings.*: true
+      zpp.admin.scoreboard: true
+      zpp.update.notify: true
+      zpp.practice.*: true
+  zpp.setup:
+    description: Setup everything.
+    children:
+      zpp.ladder.freeze: true
+      zpp.arena.freeze: true
+      zpp.ladder.stop: true
+      zpp.arena.stop: true
+  zpp.staff:
+    description: Staff permission.
+    children:
+      zpp.staffmode: true
+      zpp.staffmode.fly: true
+      zpp.staffmode.stop: true
+      zpp.staffmode.see: true
+      zpp.staffmode.chat: true
+      zpp.bypass.privatemessage: true
+      zpp.bypass.spectate: true
+      zpp.staffmode.forceend: true
+  zpp.autosave.alert:
+    description: Alerts when the auto save ends and starts.
+  zpp.practice.*:
+    children:
+      zpp.practice.lobby: true
+      zpp.practice.arenas: true
+      zpp.practice.info: true
+      zpp.practice.info.teleport: true
+      zpp.practice.info.cancel: true
+      zpp.practice.info.resetstats: true
+      zpp.practice.elo.default: true
+      zpp.practice.elo.specific: true
+      zpp.practice.ranked.default: true
+      zpp.practice.ranked.add: true
+      zpp.practice.ranked.ban: true
+      zpp.practice.ranked.unban: true
+      zpp.practice.unranked.default: true
+      zpp.practice.unranked.add: true
+      zpp.practice.exp.reset: true
+      zpp.practice.exp.add: true
+      zpp.practice.exp.set: true
+      zpp.practice.rename: true
+      zpp.practice.preset: true
+      zpp.practice.reset: true
+      zpp.practice.reload: true
+      zpp.practice.nametag.set: true
+      zpp.practice.nametag.reset: true
+      zpp.practice.nametag.name.others: true
+  zpp.practice.lobby:
+    description: Teleport to and set the lobby.
+  zpp.practice.arenas:
+    description: Teleport to the arenas world.
+  zpp.practice.info:
+    description: Usage for the /prac info <player> command.
+  zpp.practice.info.teleport:
+    description: Teleport to the player's activities.
+  zpp.practice.info.cancel:
+    description: Cancel the player's activities.
+  zpp.practice.info.resetstats:
+    description: Reset the player's statistics.
+  zpp.practice.elo.default:
+    description: Reset the player's elos to default.
+  zpp.practice.elo.specific:
+    description: Set the player's elos to a specific number.
+  zpp.practice.rename:
+    description: Usage for the /prac rename command.
+  zpp.practice.preset:
+    description: Save cosmetic presets from items with /prac preset add.
+  zpp.practice.reset:
+    description: Reset a player fully.
+  zpp.practice.reload:
+    description: Reload practice config files.
+  zpp.practice.nametag.set:
+    description: Set player's nametag.
+  zpp.practice.nametag.reset:
+    description: Reset player's nametag.
+  zpp.practice.nametag.name.others:
+    description: Allow changing other players' name format through /practice nametag name.
+    default: op
+  zpp.nick.use:
+    description: Use /nick command.
+    default: true
+  zpp.nick.others:
+    description: Set another player's display name using /nick.
+    default: op
+    children:
+      zpp.nick.use: true
+  zpp.nick.different-name:
+    description: Allow /nick to use a different visible username instead of only styling the real one.
+    default: op
+    children:
+      zpp.nick.use: true
+  zpp.nick.reset.others:
+    description: Reset another player's display name using /nick reset.
+    default: op
+    children:
+      zpp.nick.use: true
+  zpp.practice.unranked.default:
+    description: Reset the player's daily unranked limit to default.
+  zpp.practice.unranked.add:
+    description: Add extra unranked to a player.
+  zpp.practice.ranked.default:
+    description: Reset the player's daily ranked limit to default.
+  zpp.practice.ranked.add:
+    description: Add extra rankeds to a player.
+  zpp.practice.ranked.ban:
+    description: Ban a player from playing ranked matches.
+  zpp.practice.ranked.unban:
+    description: Unban a player from playing ranked matches.
+  zpp.practice.exp.reset:
+    description: Reset the player's experience.
+  zpp.practice.exp.add:
+    description: Add experience to a player.
+  zpp.practice.exp.set:
+    description: Set experience to a player.
+  zpp.settings.*:
+    children:
+      zpp.settings.open: true
+      zpp.bypass.cooldown: false
+      zpp.settings.duelrequest: true
+      zpp.settings.autoqueue: true
+      zpp.settings.scoreboard: true
+      zpp.settings.privatemessage: true
+      zpp.settings.partyinvite: true
+      zpp.settings.playerhide: true
+      zpp.settings.allowspectate: true
+      zpp.settings.worldtime: true
+      zpp.settings.prefixvisibility: true
+      zpp.settings.fly: true
+  zpp.settings.open:
+    description: Open the settings gui.
+    default: true
+  zpp.settings.duelrequest:
+    description: Toggle duel requests.
+  zpp.settings.autoqueue:
+    description: Toggle auto-queue after a match ends.
+  zpp.settings.scoreboard:
+    description: Toggle the scoreboard.
+  zpp.settings.privatemessage:
+    description: Toggle private messages.
+  zpp.settings.partyinvite:
+    description: Toggle party invites.
+  zpp.settings.playerhide:
+    description: Toggle player hider in lobby.
+  zpp.settings.allowspectate:
+    description: Toggle spectators in their matches.
+  zpp.settings.worldtime:
+    description: Change world time.
+  zpp.settings.prefixvisibility:
+    description: Change prefix/suffix visibility mode in chat/tab/sidebar/nametag.
+  zpp.settings.fly:
+    description: Toggle fly in the lobby.
+  zpp.staffmode:
+    description: Turn on staff mode.
+    children:
+      zpp.bypass.spectate: true
+  zpp.staffmode.fly:
+    description: Fly in the lobby.
+  zpp.staffmode.forceend:
+    description: Able to force end matches (if possible party matches can continue) and freezes the player in the lobby.
+  zpp.staffmode.chat:
+    description: Use staff chat.
+  zpp.staffmode.see:
+    description: See the hiding staffs.
+  zpp.ladder.freeze:
+    description: Freeze ladders so player can't start a new game with it.
+  zpp.ladder.stop:
+    description: Stop all the matches with a ladder.
+  zpp.arena.freeze:
+    description: Freeze arenas so player can't start a new game with it.
+  zpp.arena.stop:
+    description: Stop all the matches in a arena.
+  zpp.spectate:
+    default: true
+  zpp.spectate.vanish:
+    description: Toogle vanish when spectating.
+  zpp.spectate.menu:
+    description: Spectate menu use.
+  zpp.spectate.random:
+    description: Spectate random match.
+  zpp.spectate.targets:
+    description: Open the fighter list and teleport to a single fighter while spectating.
+  zpp.statistics:
+    default: true
+  zpp.statistics.other:
+    description: View other players statistics.
+  zpp.divisions.view:
+    default: true
+    description: Open the divisions GUI.
+  zpp.ignorequeue:
+    default: true
+    description: Ignore a player in unranked queue.
+  zpp.queue.multi:
+    description: Allows players to queue for multiple ladders in the same queue type.
+  zpp.duel:
+    description: Use the /duel command.
+  zpp.duel.selectarena:
+    description: Player can choose the arena to play in.
+  zpp.duel.selectrounds:
+    description: Player can choose how many rounds they want to play.
+  zpp.duel.infiniteinvite:
+    description: Player can invite player to duel any number of times.
+  zpp.party.selectarena:
+    description: Choose arena to play in with party.
+  zpp.party.selectrounds:
+    description: Player can choose how many rounds they want to play.
+  zpp.party.infiniteinvite:
+    description: Party leader can invite other parties any number of times. (Before the previous invite expire)
+  zpp.party.create:
+    description: Create party.
+  zpp.party.info.others:
+    description: View other player's party information.
+  zpp.party.changelimit:
+    description: Change party player limit.
+  zpp.party.public:
+    description: Change party status to public.
+  zpp.party.view:
+    description: View public parties.
+  zpp.party.joinpublic:
+    description: Join a public party without an invite.
+  zpp.party.broadcast:
+    description: Broadcast the party, if it public.
+  zpp.party.allinvite:
+    description: Invite all the players in the server to the party.
+  zpp.party.partychat:
+    description: Change party chat use status.
+  zpp.party.duelrequest:
+    description: Toggle duel requests in party.
+  zpp.event.*:
+    children:
+      zpp.event.host.all: true
+      zpp.event.join: true
+      zpp.event.stop.collecting: true
+      zpp.event.stop.live: true
+  zpp.event.host:
+    description: Open the event host gui.
+  zpp.event.host.all:
+    description: Host all the events.
+    children:
+      zpp.event.host: true
+  zpp.event.join:
+    default: true
+  zpp.event.stop.collecting:
+    description: Stop events while its collecting.
+  zpp.event.stop.live:
+    description: Stop ongoing events.
+  zpp.bypass.privatemessage:
+    description: Players with this permission can send private messages to players who don't accept them.
+  zpp.bypass.ranked.requirements:
+    description: Bypass ranked requirements.
+  zpp.bypass.cooldown:
+    description: Cooldown bypass for spectate vanish, lobby vanish etc..
+  zpp.bypass.unranked.limit:
+    description: Bypass unranked limit per day.
+  zpp.bypass.ranked.limit:
+    description: Bypass ranked limit per day.
+  zpp.bypass.party.broadcast.limit:
+    description: Bypass the daily party broadcast limit.
+  zpp.bypass.forceend:
+    description: Bypass staff forceend. (Can't end their match or event)
+  zpp.bypass.stop:
+    description: Bypass staff stop. (Can't be removed from match or event)
+  zpp.bypass.nametag:
+    description: Bypass nametag change.
+  zpp.bypass.spectate:
+    description: Bypass if a match is not viewable.
+  zpp.bypass.commands:
+    description: Bypass the in-fight command filter.
+  zpp.playerkit.share:
+    description: Share custom kit with others.
+  zpp.playerkit.copy:
+    description: Copy custom kit from others.
+  zpp.playerkit.queue.host:
+    description: Host a custom kit queue.
+  zpp.playerkit.queue.use:
+    description: Use custom kit queue commands.
+    default: true
+  zpp.cosmetics.main:
+    description: Open the cosmetics GUI.
+  zpp.cosmetics.armortrim.base.*:
+    description: Allow access to all armor base tiers.
+    children:
+      zpp.cosmetics.armortrim.base.leather: true
+      zpp.cosmetics.armortrim.base.gold: true
+      zpp.cosmetics.armortrim.base.iron: true
+      zpp.cosmetics.armortrim.base.diamond: true
+      zpp.cosmetics.armortrim.base.netherite: true
+  zpp.cosmetics.armortrim.base.leather:
+    description: Allow access to Leather armor tier.
+  zpp.cosmetics.armortrim.base.gold:
+    description: Allow access to Gold armor tier.
+  zpp.cosmetics.armortrim.base.iron:
+    description: Allow access to Iron armor tier.
+  zpp.cosmetics.armortrim.base.diamond:
+    description: Allow access to Diamond armor tier.
+  zpp.cosmetics.armortrim.base.netherite:
+    description: Allow access to Netherite armor tier.
+  zpp.cosmetics.armortrim.apply-global:
+    description: Copy armor trim setting to all armor types.
+  zpp.cosmetics.lobby.*:
+    description: Access all lobby movement cosmetics.
+    children:
+      zpp.cosmetics.lobby.none: true
+      zpp.cosmetics.lobby.wind_charge: true
+      zpp.cosmetics.lobby.trident: true
+      zpp.cosmetics.lobby.spear: true
+      zpp.cosmetics.lobby.elytra: true
+  zpp.cosmetics.lobby.none:
+    description: Select no lobby movement cosmetic.
+  zpp.cosmetics.lobby.wind_charge:
+    description: Select the lobby wind charge cosmetic.
+  zpp.cosmetics.lobby.trident:
+    description: Select the lobby trident cosmetic.
+  zpp.cosmetics.lobby.spear:
+    description: Select the lobby spear cosmetic.
+  zpp.cosmetics.lobby.elytra:
+    description: Select the lobby elytra cosmetic (elytra and refilling rockets).
+  zpp.update.notify:
+    description: Receive in-game notifications when a new ZonePractice Pro version is released.
+    default: op
+  zpp.matchhistory:
+    description: Access /matchhistory command.
+    default: op

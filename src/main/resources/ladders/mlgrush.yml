@@ -1,0 +1,9 @@
+name: MLGRush
+enabled: true
+type: MLG_RUSH
+icon: STICK
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.

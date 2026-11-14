@@ -1,0 +1,9 @@
+name: Fireball
+enabled: true
+type: FIREBALL_FIGHT
+icon: FIRE_CHARGE
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.

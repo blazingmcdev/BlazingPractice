@@ -1,0 +1,9 @@
+name: SG
+enabled: true
+type: BUILD
+icon: FLINT_AND_STEEL
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.

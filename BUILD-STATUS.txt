@@ -1,0 +1,80 @@
+BlazingPractice Season 3 — 0.10.5-dev source milestone
+
+Selector configuration delivered:
+- Runtime folder: plugins/BlazingPractice/selector/selector.yml.
+- Wooden-axe item properties are configurable: enabled, material, slot, name and lore.
+- Menu properties are configurable: enabled, title, size and arbitrary button entries.
+- Each button supports configurable enabled, slot, material, optional player-head skin owner, name, lore, NPC reference name and action block.
+- Buttons can be added by adding YAML entries, removed by deleting an entry or setting enabled:false, and changed using /bp selector reload.
+- Supported actions: console_command, url, links, message and practice_menu.
+- Supported command placeholders: {player}, {uuid}, {world}.
+- Selector head clicks and BlazingPractice-managed NPC clicks share the configured destination-action dispatcher.
+
+Mapping derived from the user's uploaded npcs.yml:
+- Survival -> `mv tp {player} w:world --unsafe`.
+- The NPC named FFA (menu label Practice & FFA) -> `mv tp {player} w:practice --unsafe`.
+- Discord -> clickable URL `https://discord.gg`.
+- SylixCloud -> clickable website `https://sylixcloud.com` and invite `https://discord.gg/bSWnZ9ftmS`.
+- NPC coordinates, creator UUIDs, entity settings and unrelated external plugin configuration are not imported or overwritten.
+- The uploaded file does not contain player skin owner names, so each `skin-owner` field is blank by default and can be filled manually.
+
+Validation performed:
+- PyYAML parsed plugin.yml, config.yml and selector/selector.yml successfully.
+- Maven pom.xml parsed successfully as XML.
+- Selector button IDs, slots, action types, placeholder handling and URL schemes checked with a static validation script.
+- Java source scan performed for syntax/parser diagnostics; full type-check is blocked by missing Paper API dependencies.
+- ZIP archive integrity checked after packaging.
+
+Not verified:
+- Full Java 25 Maven compilation (local runtime is Java 21 and Maven executable is unavailable).
+- Paper 1.21.11 runtime test of the selector GUI, clickable URL components, command dispatch or NPC integration.
+- External NPC plugin integration; the `npc-name` values in selector.yml are reference labels. NPC positions and external plugin behavior remain managed by that plugin.
+- Multiverse-Core / Multiverse-Inventories interoperability and real player inventory transitions.
+
+Release readiness: NOT READY. The deliverables are source/configuration ZIPs, not a compiled installable JAR.
+
+Build with JDK 25 and Maven:
+  mvn clean package
+Expected plugin file:
+  target/BlazingPractice.jar
+
+Deployment safety:
+- Do not place a source ZIP into the server's plugins folder.
+- Back up world files, player data, BlazingPractice SQLite and Multiverse-Inventories data before live testing.
+- Treat console_command entries in selector.yml as server-console commands. Only trusted administrators should edit that file.
+
+Dedicated duel arena update (2026-11-14):
+- Added WorldGuard-backed dedicated arena pools keyed by each ladder ID.
+- Arena registrations and min/max pool limits are stored in plugins/BlazingPractice/arenas.yml.
+- Added `/blazingpractice:arena create|setspawn1|setspawn2|enable|disable|delete|list|info|reload` (with `/bp arena` as an alternate form).
+- Added runtime reservations to ensure one active match per arena and separate pools per ladder.
+- Updated ranked/unranked matchmaking and direct duel starts to reserve only the requested ladder's arena.
+- Kept Player 1 -> spawn1 and Player 2 -> spawn2 teleport order.
+- WorldGuard is a soft dependency; arena creation and validation refuse to continue if it is absent.
+- Added `docs/DEDICATED-DUEL-ARENAS.md`.
+
+Validation for this update:
+- plugin.yml, config.yml and arenas.yml parse as YAML.
+- pom.xml parses as XML.
+- Java source was checked for parser-level syntax diagnostics; unresolved Bukkit/WorldGuard dependencies prevent a full standalone javac check.
+- Full JDK 25 + Maven build was not possible in this environment (only Java 21 is installed and Maven is unavailable).
+- No Paper/WorldGuard runtime test was performed.
+
+
+Command UX update (0.10.5-dev):
+- Prefer /blazingpractice:arena to avoid command-name conflicts with WorldGuard/other plugins.
+- /duel supports online-player suggestions followed by enabled ladder suggestions.
+- /queue and /que support both concise and legacy queue syntax with ladder suggestions.
+- Context-aware tab completions were expanded for arena, region, FFA, party, accept and stats commands.
+- The suggestion dropdown's base colors are decided by the Minecraft client, not Bukkit TabCompleter.
+- This update has not been compiled or tested on Paper in this environment.
+
+
+Player command help and completion update (0.10.5-dev):
+- Added `/bp help`, `/bp help player`, `/bp help admin`, `/bp help <command>` and `/bp help features`.
+- Added command-specific help pages to active player commands.
+- TAB completion is contextual for implemented command arguments and excludes invisible/self players from duel and party-invite suggestions.
+- Administrative completion choices are filtered by relevant permissions where practical.
+- Compatibility-only command roots remain registered but are not advertised as implemented; completion does not invent unsupported arguments.
+- Minecraft client's command suggestion dropdown color cannot be set by the Bukkit TabCompleter; chat help/usage lines use yellow formatting.
+- This source update has not been compiled with JDK 25/Maven or tested on a live Paper 1.21.11 server.

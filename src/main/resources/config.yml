@@ -1,0 +1,165 @@
+settings:
+  debug: false
+  locale: en_US
+database:
+  type: sqlite
+  sqlite-file: data.db
+# Recommended layout: one Lobby world and ONE shared PvP world for both Practice and FFA.
+# Stand inside the PvP world and run /bp world set pvp to save the actual world name.
+worlds:
+  lobby: blazinglobby
+  pvp: pvp
+  practice: pvp
+  ffa: pvp
+  survival:
+  - world
+  - survival
+  - world_nether
+  - world_the_end
+world-inventories:
+  enabled: true
+  mode: auto
+  primary-profile: survival
+  groups:
+    survival:
+      worlds:
+      - world
+      - survival
+      - world_nether
+      - world_the_end
+    pvp:
+      worlds:
+      - pvp
+    practice:
+      worlds: []
+    ffa:
+      worlds: []
+    lobby:
+      worlds:
+      - blazinglobby
+    bedwars:
+      worlds:
+      - bedwars
+  save:
+    inventory: true
+    armor: true
+    offhand: true
+    ender-chest: true
+    experience: true
+    health: true
+    hunger: true
+    potion-effects: true
+    game-mode: false
+protection:
+  enabled: true
+  safe-worlds:
+  - blazinglobby
+  - lobby
+  - practice_lobby
+  - pvp
+lobby:
+  return-after-match: true
+selector:
+  enabled: true
+  lobby-clean-inventory: true
+  material: WOODEN_AXE
+  name: '&aPractice Selector'
+  lore:
+  - '&7Right-click to open Practice / FFA.'
+  allowed-worlds:
+  - pvp
+  hotbar:
+    server-selector:
+      enabled: true
+      slot: 0
+      material: WOODEN_AXE
+      name: '&eServer Selector &7(Right-Click)'
+      lore:
+      - '&7Choose Survival, Practice + FFA, Hosting or Discord'
+    practice:
+      enabled: true
+      slot: 0
+      material: IRON_SWORD
+      name: '&aPractice &7(Right-Click)'
+      lore:
+      - '&7Ranked and unranked matchmaking'
+    ffa:
+      enabled: true
+      slot: 1
+      material: GOLDEN_SWORD
+      name: '&6Free For All &7(Right-Click)'
+      lore:
+      - '&7Join FFA at its own spawn in the shared PvP world'
+    party-info:
+      enabled: true
+      slot: 6
+      material: PLAYER_HEAD
+      name: '&bParty Information &7(Right-Click)'
+      lore:
+      - '&7View your current party'
+    party-create:
+      enabled: true
+      slot: 7
+      material: NAME_TAG
+      name: '&dCreate Party &7(Right-Click)'
+      lore:
+      - '&7Create a new party'
+    help:
+      enabled: true
+      slot: 8
+      material: BOOK
+      name: '&6Practice Help &7(Right-Click)'
+      lore:
+      - '&7Show Practice commands'
+    ffa-leave:
+      enabled: true
+      slot: 8
+      material: BARRIER
+      name: '&cLeave FFA &7(Right-Click)'
+      lore:
+      - '&7Return to your previous location'
+  block:
+    enabled: false
+    world: ''
+    x: 0
+    y: 0
+    z: 0
+    material: OAK_PLANKS
+  destinations:
+    ffa-world: pvp
+  practice-worlds:
+  - pvp
+npcs:
+  urls:
+    discord: https://discord.com/invite/YOUR_INVITE
+    hosting: https://silixcloud.com
+  display-names:
+    survival: '&aSURVIVAL'
+    practice: '&bPRACTICE & FFA'
+    discord: '&9JOIN DISCORD'
+    hosting: '&dOUR HOSTING'
+update-checker:
+  enabled: false
+  github-repository: YOUR_GITHUB_USERNAME/BlazingPracticeSeason3
+  check-on-startup: true
+  notify-admins-on-join: true
+messages:
+  prefix: '&8[&aBlazingPractice&8] &r'
+  no-permission: '&cYou do not have permission.'
+  compatibility-pending: '&eThis ZonePracticePro-compatible command is registered, but its original behavior has
+    not been ported yet.'
+  selector-only-worlds: '&cUse the configured Practice+FFA shared PvP world for these controls.'
+  inventory-backend-multiverse: '&aMultiverse-Inventories is active; BlazingPractice internal world-inventory swapping
+    is disabled to prevent conflicts.'
+  inventory-backend-internal: '&aBlazingPractice is managing separate world profiles using its internal SQLite storage.'
+parties:
+  maximum-size: 8
+  invite-expiry-seconds: 60
+practice:
+  spawn: {}
+ffa:
+  enabled: true
+  worlds:
+  - pvp
+  keep-inventory-on-death: true
+  spawn: {}

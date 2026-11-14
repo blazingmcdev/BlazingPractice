@@ -1,0 +1,9 @@
+name: Archer
+enabled: true
+type: BASIC
+icon: BOW
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.

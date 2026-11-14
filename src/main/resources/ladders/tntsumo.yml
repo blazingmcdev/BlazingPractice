@@ -1,0 +1,9 @@
+name: tntsumo
+enabled: true
+type: TNT_SUMO
+icon: TNT
+ranked: true
+unranked: true
+queue-enabled: true
+description: Ladder queue definition. Loadout and special mechanics are controlled
+  by BlazingPractice.
